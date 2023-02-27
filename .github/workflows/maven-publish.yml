@@ -38,7 +38,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: feature
-      - name: Checkout feature branch
+      - name: Checkout Development branch
         uses: actions/checkout@v2
         with:
           ref: ${{ github.event.pull_request.head.ref }}
