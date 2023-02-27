@@ -3,7 +3,7 @@ name: Build and Test
 on:
   pull_request:
     branches:
-      - feature
+      - Development
     types: [closed, opened, reopened, synchronize]
 
 jobs:
