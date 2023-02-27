@@ -34,17 +34,17 @@ jobs:
      
     steps:
     
-      - name: Checkout Development branch
+      - name: Checkout feature branch
         uses: actions/checkout@v2
         with:
-          ref: Development
+          ref: feature
       - name: Checkout feature branch
         uses: actions/checkout@v2
         with:
           ref: ${{ github.event.pull_request.head.ref }}
-      - name: Diff Development vs feature
+      - name: Diff feature vs Development
         run: |
-          git diff Development ${{ github.event.pull_request.head.ref }}    
+          git diff feature ${{ github.event.pull_request.head.ref }}    
     
       - name: Cache Depenedencies
         uses: actions/setup-java@v2
