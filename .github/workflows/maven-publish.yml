@@ -18,8 +18,8 @@ jobs:
     - name: Find changed libraries
       id: changed_libs
       run: |
-        git fetch origin development
-        git diff --name-only HEAD origin/development | awk -F/ '{print $2}' | sort -u > changed_libs.txt
+        git fetch origin Development
+        git diff --name-only HEAD origin/Development | awk -F/ '{print $2}' | sort -u > changed_libs.txt
         echo "Changed libraries:"
         cat changed_libs.txt
       
