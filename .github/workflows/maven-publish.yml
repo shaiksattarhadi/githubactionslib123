@@ -34,21 +34,26 @@ jobs:
      
     steps:
     
-    - name: Checkout repository
-      uses: actions/checkout@v2
-    - name: Get Commit Difference Count Between Two Branches
-      id: cdc
-      uses: jessicalostinspace/commit-difference-action@v1.0.0
-      with:
-        base-branch: 'Development' 
-        secondary-branch: 'feature'      
+      - name: Checkout main branch
+        uses: actions/checkout@v2
+        with:
+          ref: Development
+
+      - name: Checkout other branch
+        uses: actions/checkout@v2
+        with:
+          ref: feature
+
+      - name: Diff branches
+        run: |
+          git diff main other_branch    
     
-    - name: Cache Depenedencies
-      uses: actions/setup-java@v2
-      with:
-        java-version: '11'
-        distribution: 'adopt'
-        cache: maven
+      - name: Cache Depenedencies
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+          cache: maven
     
-    - name: Build with maven
-      run: mvn -B clean package -s .maven/settings.xml
+      - name: Build with maven
+        run: mvn -B clean package -s .maven/settings.xml
