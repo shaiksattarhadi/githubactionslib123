@@ -10,7 +10,7 @@ on:
     - unassigned
     - labeled
     - unlabeled
-    - opened
+   
     - edited
     - closed
     - reopened
