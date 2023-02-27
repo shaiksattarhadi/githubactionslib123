@@ -36,11 +36,12 @@ jobs:
     
     - name: Checkout repository
       uses: actions/checkout@v2
-    - name: Find difference between branches
-      id: diff
-      run: |
-        changed_files=$(git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }})
-        echo "::set-output name=files::$changed_files"      
+    - name: Get Commit Difference Count Between Two Branches
+      id: cdc
+      uses: jessicalostinspace/commit-difference-action@v1.0.0
+      with:
+        base-branch: 'Development' 
+        secondary-branch: 'feature'      
     
     - name: Cache Depenedencies
       uses: actions/setup-java@v2
