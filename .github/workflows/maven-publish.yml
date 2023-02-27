@@ -40,8 +40,8 @@ jobs:
       id: cdc
       uses: jessicalostinspace/commit-difference-action@v1.0.0
       with:
-        base-branch: 'feature' 
-        secondary-branch: 'Development'      
+        base-branch: 'Development' 
+        secondary-branch: 'feature'      
     
     - name: Cache Depenedencies
       uses: actions/setup-java@v2
