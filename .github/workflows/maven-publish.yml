@@ -10,7 +10,7 @@ on:
     - unassigned
     - labeled
     - unlabeled
-    - opened
+   
     - edited
     - closed
     - reopened
@@ -36,6 +36,11 @@ jobs:
     
     - name: Checkout repository
       uses: actions/checkout@v2
+    - name: Find difference between branches
+      id: diff
+      run: |
+        changed_files=$(git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }})
+        echo "::set-output name=files::$changed_files"      
     
     - name: Cache Depenedencies
       uses: actions/setup-java@v2
