@@ -1,45 +1,49 @@
-name: Build and Test
+name: Pull Request Approved
 
 on:
-  pull_request:
+  pull_request_review:
+    types: [submitted]
     branches:
-      - Development
-    types: [closed, opened, reopened, synchronize]
+      - feature
+    properties:
+      reviewState: approved
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-      
-    - name: Find changed libraries
-      id: changed_libs
-      run: |
-        git fetch origin development
-        git diff --name-only HEAD origin/development | awk -F/ '{print $2}' | sort -u > changed_libs.txt
-        echo "Changed libraries:"
-        cat changed_libs.txt
-      
-    - name: Install Java
-      uses: actions/setup-java@v2
-      with:
-        java-version: '11'
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Set up cache
-      uses: actions/cache@v2
-      with:
-        path: ~/.m2/repository
-        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-        restore-keys: |
-          ${{ runner.os }}-m2-
-          
-    - name: Build and Test each module
-      run: |
-        while read -r module; do
-          cd $module
-          mvn -s settings.xml clean verify
-          cd ..
-        done < changed_libs.txt
+      - name: Find the difference and check pom.xml
+        id: modules
+        run: |
+          # Find the difference between feature and development
+          # Fetch only the directory which got change and need to check pom.xml available in that module
+          # Store the module names in a variable
+
+      - name: Download Java
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+
+      - name: Set up cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+
+      - name: Loop each module and run Maven clean
+        run: |
+          for module in "${{ steps.modules.outputs.modules }}"; do
+            cd "$module"
+            mvn -s /path/to/settings.xml clean
+            cd ..
+          done
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          branch: development
+          force: true
