@@ -1,0 +1,45 @@
+name: Build and Test
+
+on:
+  pull_request:
+    branches:
+      - feature
+    types: [closed, opened, reopened, synchronize]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      
+    - name: Find changed libraries
+      id: changed_libs
+      run: |
+        git fetch origin development
+        git diff --name-only HEAD origin/development | awk -F/ '{print $2}' | sort -u > changed_libs.txt
+        echo "Changed libraries:"
+        cat changed_libs.txt
+      
+    - name: Install Java
+      uses: actions/setup-java@v2
+      with:
+        java-version: '11'
+
+    - name: Set up cache
+      uses: actions/cache@v2
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-m2-
+          
+    - name: Build and Test each module
+      run: |
+        while read -r module; do
+          cd $module
+          mvn -s settings.xml clean verify
+          cd ..
+        done < changed_libs.txt
