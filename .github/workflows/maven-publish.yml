@@ -34,19 +34,19 @@ jobs:
      
     steps:
     
-      - name: Checkout main branch
+      - name: Checkout Development branch
         uses: actions/checkout@v2
         with:
           ref: Development
 
-      - name: Checkout other branch
+      - name: Checkout feature branch
         uses: actions/checkout@v2
         with:
           ref: feature
 
       - name: Diff branches
         run: |
-          git diff main other_branch    
+          git diff Development feature    
     
       - name: Cache Depenedencies
         uses: actions/setup-java@v2
