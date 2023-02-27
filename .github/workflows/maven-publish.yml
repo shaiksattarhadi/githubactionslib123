@@ -1,12 +1,32 @@
-name: Pull Request Approved
+# This workflow will build a MuleSoft project and deploy to CloudHub
+
+name: Maven build Fetching "settings.xml"
 
 on:
-  pull_request_review:
-    types: [submitted]
+  pull_request:
+    types:
+    - closed
+    - assigned
+    - unassigned
+    - labeled
+    - unlabeled
+    - opened
+    - edited
+    - closed
+    - reopened
+    - synchronize
+    - converted_to_draft
+    - ready_for_review
+    - locked
+    - unlocked
+    - review_requested
+    - review_request_removed
+    - auto_merge_enabled
+    - auto_merge_disabled
     branches:
-      - Development
-    properties:
-      reviewState: approved
+    - Development
+    
+    
 
 jobs:
   build:
