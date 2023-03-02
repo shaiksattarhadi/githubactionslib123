@@ -26,7 +26,7 @@ jobs:
         
         for i in `jq '.[].filename' pr_changed_list.json`
         do
-          parentdir="$(echo $filename  | head -n1 | cut -d "/" -f1)"
+          parentdir="$(echo $filename  | head -n1 | cut -d "/" -f1 | cut -c 1-)"
           echo "$parentdir"
         done
         
