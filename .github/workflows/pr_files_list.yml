@@ -25,7 +25,7 @@ jobs:
         echo "$changed_list"
         #parentdir="$(dirname "$changed_list")"
         foldername="src/main/java/unitTesting/test3.txt"
-        parentdir="$(dirname -- "$(realpath -- "$foldername")")"
+        parentdir="$(realpath -- "$foldername")"
         echo "$parentdir"
       
  
