@@ -24,40 +24,13 @@ on:
     - auto_merge_enabled
     - auto_merge_disabled
     branches:
-    - Development
+    - Development/*
     
-    
-
 jobs:
-  build:
+  diff:
     runs-on: ubuntu-latest
-     
     steps:
-    
-      - name: Checkout feature branch
-        uses: actions/checkout@v2
-        with:
-          ref: feature
-      - name: Checkout Development branch
-        uses: actions/checkout@v2
-        with:
-          ref: ${{ github.event.pull_request.head.ref }}
-      - name: Diff feature vs Development
-        run: |
-          git diff feature ${{ github.event.pull_request.head.ref }}    
-    
-      - name: Cache Depenedencies
-        uses: actions/setup-java@v2
-        with:
-          java-version: '11'
-          distribution: 'adopt'
-          cache: maven
-      - name: Build changed modules
-        run: |
-          changed_modules=$(jq -r '.[] | select(test("^path/to/your/module")) | .filename' "${{ steps.changes.outputs.json }}")
-          for module in $changed_modules; do
-            cd $module
-            mvn clean package
-            cd ..
-          done
-     
+      - uses: actions/checkout@v2
+      - name: Git Diff
+        run: git diff origin/feature..HEAD    
+
