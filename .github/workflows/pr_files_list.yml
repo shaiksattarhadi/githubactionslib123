@@ -4,10 +4,9 @@ name: Get changed files in PR
 
 on:
   pull_request:
+    branches: [Development]
     types: [opened, edited, synchronize]
-  push:
-    branches:
-      - raju
+
 env:
   git_token: ${{ secrets.TOKEN }}
   pr_number: ${{ github.event.pull_request.number }}
