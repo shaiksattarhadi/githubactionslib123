@@ -1,0 +1,34 @@
+# This workflow will build a MuleSoft project and deploy to CloudHub
+
+name: Get changed files in PR
+
+on:
+  pull_request:
+    branches: [Development]
+    types: [opened, edited, synchronize]
+
+env:
+  git_token: ${{ secrets.TOKEN }}
+  pr_number: ${{ github.event.pull_request.number }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Get changed files list
+      run: |
+        sudo apt-get update
+        sudo apt-get install jq
+        curl -s -H "Authorization: token "${git_token}"" "https://api.github.com/repos/shaiksattarhadi/githubactionslib123/pulls/$pr_number/files" >> pr_changed_list.json
+        #cat pr_changed_list.json
+        changed_list=`jq '.[].filename' pr_changed_list.json`
+        echo "Changed File list is: $changed_list"
+        
+        for filename in `jq '.[].filename' pr_changed_list.json`
+        do
+          parentdir="$(echo $filename  | head -n1 | sed 's/"//g' | cut -d "/" -f1 )"
+          echo "$parentdir"
+        done
+        
+      
+ 
