@@ -27,7 +27,7 @@ jobs:
         
         for filename in "$changed_list"
         do
-          parentdir="$(echo $foldername  | head -n1 | cut -d "/" -f1)"
+          parentdir="$(echo $filename  | head -n1 | cut -d "/" -f1)"
           echo "$parentdir"
         done
         
