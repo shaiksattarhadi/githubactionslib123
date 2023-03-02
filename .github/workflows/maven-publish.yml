@@ -25,7 +25,9 @@ on:
     - auto_merge_disabled
     branches:
     - Development/*
-    
+jobs:
+  build:
+    runs-on: ubuntu-latest    
 jobs:
   diff:
     runs-on: ubuntu-latest
