@@ -14,8 +14,8 @@ jobs:
     steps:
     - name: Get changed files list
       run: |
-        apt-get update
-        apt-get install jq
+        sudo apt-get update
+        sudo apt-get install jq
         curl -s -H "Authorization: token "${TOKEN}"" "https://api.github.com/repos/shaiksattarhadi/githubactionslib123/pulls/17/files" >> pr_changed_list.json
         cat pr_changed_list.json
         changed_list=`jq .'filename' pr_changed_list.json`
