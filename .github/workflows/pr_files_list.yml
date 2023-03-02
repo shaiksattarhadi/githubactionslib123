@@ -8,6 +8,9 @@ on:
   push:
     branches:
       - raju
+env:
+  git_token: ${{ secrets.TOKEN }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -16,7 +19,7 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install jq
-        curl -s -H "Authorization: token "${TOKEN}"" "https://api.github.com/repos/shaiksattarhadi/githubactionslib123/pulls/17/files" >> pr_changed_list.json
+        curl -s -H "Authorization: token "${git_token}"" "https://api.github.com/repos/shaiksattarhadi/githubactionslib123/pulls/17/files" >> pr_changed_list.json
         cat pr_changed_list.json
         changed_list=`jq .'filename' pr_changed_list.json`
       
