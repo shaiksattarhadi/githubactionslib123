@@ -25,7 +25,7 @@ jobs:
         echo "Changed File list is: $changed_list"
         #foldername="src/main/java/unitTesting/test3.txt"
         
-        for filename in "$changed_list"
+        for filename in `jq '.[].filename' pr_changed_list.json`
         do
           parentdir="$(echo $filename  | head -n1 | cut -d "/" -f1)"
           echo "$parentdir"
