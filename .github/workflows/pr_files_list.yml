@@ -23,5 +23,7 @@ jobs:
         #cat pr_changed_list.json
         changed_list=`jq '.[].filename' pr_changed_list.json`
         echo "$changed_list"
+        parentdir="$(dirname "$changed_list")"
+        echo "$parentdir"
       
  
