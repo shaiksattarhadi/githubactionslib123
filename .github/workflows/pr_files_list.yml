@@ -23,12 +23,16 @@ jobs:
         #cat pr_changed_list.json
         changed_list=`jq '.[].filename' pr_changed_list.json`
         echo "Changed File list is: $changed_list"
-        #foldername="src/main/java/unitTesting/test3.txt"
         
-        for filename in `jq '.[].filename' pr_changed_list.json`
+        for i in `jq '.[].filename' pr_changed_list.json`
         do
-          parentdir="$(echo $filename  | head -n1 | cut -d "/" -f1)"
-          echo "$parentdir"
+          parentdi1r="$(echo $filename  | head -n1 | cut -d "/" -f1)"
+          echo "$parentdir1"
+          for foldername in "$parentdir"
+          do 
+            parentdir="$(echo $filename  | head -n1 | cut -f1)"
+            echo "$parentdir"
+          done
         done
         
       
